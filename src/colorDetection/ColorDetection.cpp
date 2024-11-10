@@ -1,4 +1,5 @@
-#include  "ColorDetection.h"
+#include "ColorDetection.h"
+#include "../debugger/Log.h"
 
 void ColorDetection::begin(void){
     ColorDetection::configure(VEML_CONFIG{.mode = AUTO,.enabled = true,.exposureTime=MS40});
@@ -68,6 +69,7 @@ uint16_t ColorDetection::readDoubleRegister(uint8_t regAddr){
         result = result | (Wire.read()<<offset);
         offset = offset + 8;
     }
+    Log::d(RGB_SENSOR_COMP, "readDoubleRegister", String(regAddr) + ":" + String(result));
     return result;
 };
 
@@ -79,5 +81,7 @@ void ColorDetection::writeDoubleRegister(uint8_t regAddr, uint16_t data){
     Wire.write((uint8_t)((data>>8)&0x00FF));
     if(Wire.endTransmission() != 0){
         Serial.printf("Reading Register %d failed",regAddr);
+    } else {
+        Log::d(RGB_SENSOR_COMP, "writeDoubleRegister", String(regAddr) + ":" + String(data));
     }
 };

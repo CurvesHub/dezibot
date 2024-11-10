@@ -19,6 +19,7 @@ void MultiColorLight::setLed(uint8_t index , uint32_t color){
 
 
 void MultiColorLight::setLed(leds leds, uint32_t color){
+    // setze led auf ....
     switch (leds){
         case TOP_LEFT:
             MultiColorLight::setLed(1,color);break;

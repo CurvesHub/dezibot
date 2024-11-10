@@ -11,7 +11,7 @@
 #include "Display.h"
 #include "CharTable.h"
 #include "Wire.h"
-
+#include "../debugger/Log.h"
 
 void Display::begin(void){
     //set Mux Ratio
@@ -39,6 +39,7 @@ void Display::sendDisplayCMD(uint8_t cmd){
     Wire.write(cmd_byte);
     Wire.write(cmd);
     Wire.endTransmission();
+    //Log::propertyChanged("DISPLAY", "lastCommand", String(cmd));
 };
 
 void Display::clear(void){
@@ -77,6 +78,7 @@ void Display::updateLine(uint charAmount)
 };
 
 void Display::print(char *value){
+    Log::propertyChanged(DISPLAY_COMP, "text", String(value));
     char *nextchar;
 	/* write data to the buffer */
     while(value && *value != '\0') //check if pointer is still valid and string is not terminated 
@@ -113,40 +115,40 @@ void Display::print(char *value){
 };
 
 char Display::stringToCharArray(String value) {
-  const int len = value.length() + 1;  // +1 for the null terminator
-  char msgBuffer[len];               // Create a buffer of the appropriate length
+    const int len = value.length() + 1;  // +1 for the null terminator
+    char msgBuffer[len];               // Create a buffer of the appropriate length
 
-  value.toCharArray(msgBuffer, len);  // Copy the string into the buffer, including the null terminator
+    value.toCharArray(msgBuffer, len);  // Copy the string into the buffer, including the null terminator
 
-  return *msgBuffer;
+    return *msgBuffer;
 }
 
 void Display::print(String value){
     const int len = value.length() + 1;  // +1 for the null terminator
-  char msgBuffer[len];               // Create a buffer of the appropriate length
-  value.toCharArray(msgBuffer, len);
+    char msgBuffer[len];               // Create a buffer of the appropriate length
+    value.toCharArray(msgBuffer, len);
 
-  this->print(msgBuffer);
+    this->print(msgBuffer);
 };
 
 void Display::println(String value){
-  const int len = value.length() + 1;  // +1 for the null terminator
-  char msgBuffer[len];               // Create a buffer of the appropriate length
-  value.toCharArray(msgBuffer, len);
+    const int len = value.length() + 1;  // +1 for the null terminator
+    char msgBuffer[len];               // Create a buffer of the appropriate length
+    value.toCharArray(msgBuffer, len);
 
-  this->println(msgBuffer);
+    this->println(msgBuffer);
 };
 
 void Display::print(int value){
-  char cstr[16];
+    char cstr[16];
 
-  this->print(itoa(value, cstr, 10));
+    this->print(itoa(value, cstr, 10));
 };
 
 void Display::println(int value){
-  char cstr[16];
+    char cstr[16];
 
-  this->println(itoa(value, cstr, 10));
+    this->println(itoa(value, cstr, 10));
 };
 
 void Display::println(char *value){

@@ -5,7 +5,6 @@
 #include "Dezibot.h"
 #include <Wire.h>
 
-
 Dezibot::Dezibot():multiColorLight(){};
 
 void Dezibot::begin(void) {
