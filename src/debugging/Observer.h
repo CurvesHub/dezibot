@@ -17,6 +17,7 @@ class Observer {
     String createStateJson() const;
 
   public:
+    // TODO: Pass the creditentials to the constructor and new up the client here
     Observer(WiFiHttpClient* client, Observable** observables, int observableCount, unsigned long updateInterval = 10000);
 
     // Method to periodically update and send the state of all observables

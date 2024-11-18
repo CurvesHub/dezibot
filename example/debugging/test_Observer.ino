@@ -10,6 +10,10 @@ const char* serverUrl = "http://your-server.com/api/route";
 // Example Observable Class (e.g., for a Display)
 class Display : public Observable {
 public:
+  bool flipped;
+  int currentLine;
+
+    DynamicJsonDocument state;
     String getPropertyState() const override {
         // Return the state as a JSON string
         DynamicJsonDocument doc(256);
@@ -20,6 +24,11 @@ public:
         String state;
         serializeJson(doc, state);
         return state;
+    }
+    void someMethode() {
+      int brightness = 100;
+        // state json anpassen
+      state["brightness"] = brightness;
     }
 };
 

@@ -4,7 +4,7 @@
 WiFiHttpClient* Logger::client = nullptr;
 
 // Static method to set the WiFiHttpClient instance
-void Logger::setClient(WiFiHttpClient* newClient) {
+void Logger::setClient(WiFiHttpClient* newClient) { // TODO: Pass the creditentials to the constructor and new up the client here
   client = newClient;
 }
 

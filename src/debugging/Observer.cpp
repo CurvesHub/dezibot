@@ -1,6 +1,6 @@
 #include "Observer.h"
 
-Observer::Observer(WiFiHttpClient* client, Observable** observables, int observableCount, unsigned long updateInterval = 1000)
+Observer::Observer(WiFiHttpClient* client, Observable** observables, int observableCount, unsigned long updateInterval = 1000) // TODO: Pass the creditentials to the constructor and new up the client here
   : client(client), observables(observables), observableCount(observableCount), updateInterval(updateInterval), lastUpdate(0) {}
 
 // Method to create a structured JSON document for the states

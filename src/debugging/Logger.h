@@ -19,7 +19,7 @@ class Logger {
 
   public:
     // Static method to set the client
-    static void setClient(WiFiHttpClient* newClient);
+    static void setClient(WiFiHttpClient* newClient); // TODO: Pass the creditentials to the constructor and new up the client here
 
     // Static method to log the message
     static void log(const char* message, LogLevel level = INFO);
