@@ -1,4 +1,5 @@
 #include "InfraredLight.h"
+#include "../debugger/Log.h"
 
 #define pwmSpeedMode LEDC_LOW_SPEED_MODE
 
@@ -6,6 +7,7 @@ InfraredLED::InfraredLED(uint8_t pin,ledc_timer_t timer, ledc_channel_t channel)
     this->ledPin = pin;
     this->timer = timer;
     this->channel = channel;
+    Log::d(INFRARED_COMP, "initialized", String(pin) + ":" + String(timer) + ":" + String(channel));
 };
 
 void InfraredLED::begin(void){
@@ -48,9 +50,11 @@ void InfraredLED::setState(bool state){
     }
     ledc_update_duty(pwmSpeedMode,channel);
     
+    Log::propertyChanged(INFRARED_COMP, "state", String(state));
 };
 
 void InfraredLED::sendFrequency(uint16_t frequency){
+    Log::propertyChanged(INFRARED_COMP, "frequency", String(frequency));
     ledc_set_freq(pwmSpeedMode,timer,frequency);
     ledc_set_duty(pwmSpeedMode,channel,512);
     ledc_update_duty(pwmSpeedMode,channel);

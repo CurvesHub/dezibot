@@ -1,4 +1,5 @@
 #include "LightDetection.h"
+#include "../debugger/Log.h"
 #include <limits.h>
 
 void LightDetection::begin(void){
@@ -20,7 +21,7 @@ uint16_t LightDetection::getValue(photoTransistors sensor){
         default:
             //currently not reachable, just if enum will be extended in the future
             return UINT16_MAX;
- }
+    }
 };
 
 photoTransistors LightDetection::getBrightest(ptType type){
@@ -47,7 +48,7 @@ photoTransistors LightDetection::getBrightest(ptType type){
             }
         }
     }
-    
+    Log::propertyChanged(LIGHT_DETECT_COMP, "brightestSensor" + String(type), String(maxSensor));
     return maxSensor;
 };
 
@@ -60,7 +61,9 @@ uint32_t LightDetection::getAverageValue(photoTransistors sensor, uint32_t measu
         cumulatedResult += LightDetection::getValue(sensor);
         xTaskDelayUntil(&xLastWakeTime,frequency);
     }
-    return cumulatedResult/measurments;
+    uint32_t result =  cumulatedResult/measurments;
+    Log::propertyChanged(LIGHT_DETECT_COMP, "averageValue" + String(sensor), String(result));
+    return result;
 };
 
 void LightDetection::beginInfrared(void){
@@ -70,6 +73,7 @@ void LightDetection::beginInfrared(void){
     pinMode(IR_PT_LEFT_ADC, INPUT);
     pinMode(IR_PT_RIGHT_ADC, INPUT);
     pinMode(IR_PT_BACK_ADC, INPUT);
+    Log::d(LIGHT_DETECT_COMP, "begin infrared", "");
 };
 
 void LightDetection::beginDaylight(void){
@@ -77,6 +81,7 @@ void LightDetection::beginDaylight(void){
     pinMode(DL_PT_ENABLE, OUTPUT);
     pinMode(DL_PT_BOTTOM_ADC, INPUT);
     pinMode(DL_PT_FRONT_ADC, INPUT );
+    Log::d(LIGHT_DETECT_COMP, "begin daylight", "");
 };
 
 uint16_t LightDetection::readIRPT(photoTransistors sensor){
@@ -100,6 +105,7 @@ uint16_t LightDetection::readIRPT(photoTransistors sensor){
         break;
     }
     //digitalWrite(IR_PT_ENABLE,LOW);
+    Log::propertyChanged(LIGHT_DETECT_COMP, "irpt" + String(sensor), String(result));
     return result;
 };
 
@@ -118,5 +124,6 @@ uint16_t LightDetection::readDLPT(photoTransistors sensor){
         break;
     }
     digitalWrite(DL_PT_ENABLE,LOW);
+    Log::propertyChanged(LIGHT_DETECT_COMP, "dlpt" + String(sensor), String(result));
     return result;
 };
