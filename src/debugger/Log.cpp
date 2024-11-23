@@ -23,7 +23,6 @@ void Log::begin(
     }
     if (WiFi.status() == WL_CONNECTED) {
         enableLogging = true;
-        stateData["event"] = "stateUpdated";
         stateData["ip"] = WiFi.localIP().toString();
         Serial.println("Connected to WiFi for logging!");
     }
@@ -31,6 +30,7 @@ void Log::begin(
 
 void Log::update() {
     if (!enableLogging) return;
+    stateData["timestampUtc"] = millis();
     String jsonPayload;
     serializeJson(stateData, jsonPayload);
     sendToServer(jsonPayload);
@@ -38,7 +38,7 @@ void Log::update() {
 
 void Log::propertyChanged(String className, String propertyName, String newValue) {
     if (!enableLogging) return;
-    stateData[className]["properties"][propertyName] = newValue;
+    stateData["data"][className][propertyName] = newValue;
 };
 
 void Log::d(String className, String message, String data) {
@@ -47,11 +47,11 @@ void Log::d(String className, String message, String data) {
     String jsonPayload;
     StaticJsonDocument<200> payload;
 
-    payload["event"] = "message";
-    payload["class"] = className;
-    payload["message"] = message;
-    payload["value"] = data;
     payload["ip"] = WiFi.localIP().toString();
+    payload["timestampUtc"] = millis();
+    payload["className"] = className;
+    payload["message"] = message;
+    payload["data"] = data;
 
     serializeJson(payload, jsonPayload);
     sendToServer(jsonPayload);
@@ -59,8 +59,9 @@ void Log::d(String className, String message, String data) {
 
 void Log::sendToServer(const String jsonData) {
     if (WiFi.status() == WL_CONNECTED) {
+        // TODO: Extract the http client to reuse it
         HTTPClient http;
-
+        // TODO: Use only given url
         http.begin(_serverUrl + ":" + _port + "/api/broadcast");
 
         // Set headers
@@ -69,8 +70,10 @@ void Log::sendToServer(const String jsonData) {
         // Send POST request
         int httpResponseCode = http.POST(jsonData);
 
+        // TODO: Write response content to serial if statuscode != 204 NoContent  
+
         http.end(); // Free resources
     } else {
-        // welp
+        Serial.println("Error: WiFi not connected.");
     }
 };

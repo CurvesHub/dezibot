@@ -1,8 +1,8 @@
 /**
  * @file Log.h
- * @author Tom Sosedow
- * @brief Adds the ability to debug and log
- * @version 0.1
+ * @author Tom Sosedow, Jens Richter
+ * @brief Adds the ability to debug and log to a web server
+ * @version 0.2
  * @date 2024-11-05
  * 
  * @copyright Copyright (c) 2024
@@ -37,8 +37,8 @@ class Log {
         static void d(String className, String message, String data);
         static void update();
 
+    protected:
         static void sendToServer(const String jsonData);
-
 };
 
 // used to map the components in the backend
