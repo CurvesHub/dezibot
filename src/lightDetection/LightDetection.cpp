@@ -73,7 +73,7 @@ void LightDetection::beginInfrared(void){
     pinMode(IR_PT_LEFT_ADC, INPUT);
     pinMode(IR_PT_RIGHT_ADC, INPUT);
     pinMode(IR_PT_BACK_ADC, INPUT);
-    Log::d(LIGHT_DETECT_COMP, "begin infrared", "");
+    Log::d(LIGHT_DETECT_COMP, "begin infrared");
 };
 
 void LightDetection::beginDaylight(void){
@@ -81,7 +81,7 @@ void LightDetection::beginDaylight(void){
     pinMode(DL_PT_ENABLE, OUTPUT);
     pinMode(DL_PT_BOTTOM_ADC, INPUT);
     pinMode(DL_PT_FRONT_ADC, INPUT );
-    Log::d(LIGHT_DETECT_COMP, "begin daylight", "");
+    Log::d(LIGHT_DETECT_COMP, "begin daylight");
 };
 
 uint16_t LightDetection::readIRPT(photoTransistors sensor){
@@ -105,7 +105,7 @@ uint16_t LightDetection::readIRPT(photoTransistors sensor){
         break;
     }
     //digitalWrite(IR_PT_ENABLE,LOW);
-    Log::propertyChanged(LIGHT_DETECT_COMP, "irpt" + String(sensor), String(result));
+    Log::propertyChanged(LIGHT_DETECT_COMP, "readIRPT" + String(sensor), String(result));
     return result;
 };
 
@@ -124,6 +124,6 @@ uint16_t LightDetection::readDLPT(photoTransistors sensor){
         break;
     }
     digitalWrite(DL_PT_ENABLE,LOW);
-    Log::propertyChanged(LIGHT_DETECT_COMP, "dlpt" + String(sensor), String(result));
+    Log::propertyChanged(LIGHT_DETECT_COMP, "readDLPT" + String(sensor), String(result));
     return result;
 };

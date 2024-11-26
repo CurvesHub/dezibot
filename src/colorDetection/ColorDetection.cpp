@@ -1,5 +1,7 @@
 #include  "ColorDetection.h"
 
+// TODO: Add logging
+
 void ColorDetection::beginAutoMode(void) {
     const VEML_CONFIG DEFAULT_CONFIG = VEML_CONFIG {
         .mode = AUTO,

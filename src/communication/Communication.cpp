@@ -1,5 +1,7 @@
 #include "Communication.h"
 
+// TODO: Add logging
+
 Scheduler userScheduler; // to control your personal task
 painlessMesh mesh;
 uint32_t Communication::groupNumber = 0;

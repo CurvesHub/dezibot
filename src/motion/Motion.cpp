@@ -14,6 +14,7 @@
 
 // Initialize the movement component.
 
+// TODO: Add logging
 
 void Motion::begin(void) {
     ledc_timer_config_t motor_timer = {

@@ -7,7 +7,9 @@ InfraredLED::InfraredLED(uint8_t pin,ledc_timer_t timer, ledc_channel_t channel)
     this->ledPin = pin;
     this->timer = timer;
     this->channel = channel;
-    Log::d(INFRARED_COMP, "initialized", String(pin) + ":" + String(timer) + ":" + String(channel));
+    Log::propertyChanged(INFRARED_COMP, "ledPin", String(this->ledPin));
+    Log::propertyChanged(INFRARED_COMP, "timer", String(this->timer));
+    Log::propertyChanged(INFRARED_COMP, "channel", String(this->channel));
 };
 
 void InfraredLED::begin(void){
@@ -31,6 +33,7 @@ void InfraredLED::begin(void){
         .hpoint = 0
     };
     ledc_channel_config(&pwmChannel);
+    // TODO: Log all inital property values to fill the state json?
 };
 
 void InfraredLED::turnOn(void){
@@ -54,8 +57,8 @@ void InfraredLED::setState(bool state){
 };
 
 void InfraredLED::sendFrequency(uint16_t frequency){
-    Log::propertyChanged(INFRARED_COMP, "frequency", String(frequency));
     ledc_set_freq(pwmSpeedMode,timer,frequency);
     ledc_set_duty(pwmSpeedMode,channel,512);
     ledc_update_duty(pwmSpeedMode,channel);
+    Log::propertyChanged(INFRARED_COMP, "frequency", String(frequency));
 };

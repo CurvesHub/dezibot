@@ -58,9 +58,9 @@ class Log {
          * 
          * @param className The name of the class generating the message.
          * @param message A short message describing the event.
-         * @param data Additional data to log.
+         * @param data Additional data to log (optional, defaults to an empty string).
          */
-        static void d(String className, String message, String data);
+        static void d(String className, String message, String data = "");
 
         /**
          * @brief Sends the current state data to the server.

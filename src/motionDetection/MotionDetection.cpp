@@ -1,6 +1,8 @@
 #include "MotionDetection.h"
 #include <math.h>
 
+// TODO: Add logging
+
 MotionDetection::MotionDetection(){
     handler = new SPIClass(FSPI);
 };

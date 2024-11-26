@@ -15,20 +15,21 @@ void setup() {
 }
 
 void loop() {
-  Log::update();
-  delay(1000);
+    // TODO: Add exmaples for every component
+    Log::update();
+    delay(1000);
 
-  dezibot.display.print("Hello from\nDezibot");
-  Log::update();
-  delay(1000);
+    dezibot.display.print("Hello from\nDezibot");
+    Log::update();
+    delay(1000);
 
-  dezibot.display.clear();
-  Log::update();
-  delay(1000);
+    dezibot.display.clear();
+    Log::update();
+    delay(1000);
 
-  dezibot.lightDetection.getValue(DL_FRONT);
-  dezibot.lightDetection.getAverageValue(IR_FRONT,20,1);
-  dezibot.lightDetection.getBrightest(IR);
-  Log::update();
-  delay(1000);
+    dezibot.lightDetection.getValue(DL_FRONT);
+    dezibot.lightDetection.getAverageValue(IR_FRONT,20,1);
+    dezibot.lightDetection.getBrightest(IR);
+    Log::update();
+    delay(1000);
 }
