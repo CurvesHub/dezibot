@@ -1,5 +1,5 @@
 #include "LightDetection.h"
-#include "../debugger/Log.h"
+#include "../log/Log.h"
 #include <limits.h>
 
 void LightDetection::begin(void){

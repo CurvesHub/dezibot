@@ -11,7 +11,7 @@
 #include "Display.h"
 #include "CharTable.h"
 #include "Wire.h"
-#include "../debugger/Log.h"
+#include "../log/Log.h"
 
 void Display::begin(void){
     //set Mux Ratio

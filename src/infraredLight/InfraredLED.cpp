@@ -1,5 +1,5 @@
 #include "InfraredLight.h"
-#include "../debugger/Log.h"
+#include "../log/Log.h"
 
 #define pwmSpeedMode LEDC_LOW_SPEED_MODE
 
