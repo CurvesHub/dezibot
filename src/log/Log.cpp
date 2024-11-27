@@ -39,7 +39,7 @@ void Log::d(String className, String message, String data) {
     StaticJsonDocument<200> payload;
 
     payload["ip"] = WiFi.localIP().toString();
-    payload["timestampUtc"] = millis();
+    //payload["timestampUtc"] = millis();
     payload["className"] = className;
     payload["message"] = message;
     payload["data"] = data;
@@ -52,7 +52,7 @@ void Log::d(String className, String message, String data) {
 void Log::update() {
     if (!ENABLE_LOGGING) return;
 
-    stateData["timestampUtc"] = millis();
+    //stateData["timestampUtc"] = millis();
 
     String jsonPayload;
     serializeJson(stateData, jsonPayload);
