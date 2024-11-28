@@ -21,7 +21,6 @@
 class Log {
     private:
         static String _serverUrl;
-        static String _port;
         static DynamicJsonDocument stateData;
         static bool enableLogging;
 
@@ -29,8 +28,7 @@ class Log {
         static void begin(
             const String wifiSSID, 
             const String wifiPassword, 
-            const String serverUrl, 
-            const String port
+            const String serverUrl
         );
         
         static void propertyChanged(String className, String propertyName, String newValue);

@@ -167,6 +167,7 @@ void Display::flipOrientation(void){
         sendDisplayCMD(setSegmentReMap);
     }
     this->orientationFlipped = !this->orientationFlipped;
+    Log::propertyChanged(DISPLAY_COMP, "orientationFlipped", String(this->orientationFlipped));
 };
 
 void Display::invertColor(void){
@@ -176,4 +177,5 @@ void Display::invertColor(void){
         sendDisplayCMD(setInverseMode);
     }
     this->colorInverted = !this->colorInverted;
+    Log::propertyChanged(DISPLAY_COMP, "colorInverted", String(this->colorInverted));
 };

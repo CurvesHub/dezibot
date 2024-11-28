@@ -1,17 +1,15 @@
 #include "Log.h"
 
 String Log::_serverUrl;
-String Log::_port;
 DynamicJsonDocument Log::stateData(1024);
 bool Log::enableLogging = false;
 
 void Log::begin(
     const String wifiSSID, 
     const String wifiPassword, 
-    const String serverUrl, 
-    const String port) {
+    const String serverUrl
+    ) {
     _serverUrl = serverUrl;
-    _port = port;
 
     WiFi.begin(wifiSSID, wifiPassword);
     WiFi.setAutoReconnect(true);
@@ -31,28 +29,29 @@ void Log::begin(
 
 void Log::update() {
     if (!enableLogging) return;
+
     String jsonPayload;
+    stateData["ip"] = WiFi.localIP().toString();
     serializeJson(stateData, jsonPayload);
     sendToServer(jsonPayload);
 };
 
 void Log::propertyChanged(String className, String propertyName, String newValue) {
     if (!enableLogging) return;
-    stateData[className]["properties"][propertyName] = newValue;
+    stateData["data"][className][propertyName] = newValue;
 };
 
 void Log::d(String className, String message, String data) {
     if (!enableLogging) return;
 
-    String jsonPayload;
     StaticJsonDocument<200> payload;
 
-    payload["event"] = "message";
-    payload["class"] = className;
-    payload["message"] = message;
-    payload["value"] = data;
     payload["ip"] = WiFi.localIP().toString();
+    payload["className"] = className;
+    payload["message"] = message;
+    payload["data"] = data;
 
+    String jsonPayload;
     serializeJson(payload, jsonPayload);
     sendToServer(jsonPayload);
 }
@@ -61,16 +60,16 @@ void Log::sendToServer(const String jsonData) {
     if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
 
-        http.begin(_serverUrl + ":" + _port + "/api/broadcast");
+        http.begin(_serverUrl);
 
         // Set headers
         http.addHeader("Content-Type", "application/json");
 
         // Send POST request
-        int httpResponseCode = http.POST(jsonData);
+        int httpResponseCode = http.PUT(jsonData);
 
         http.end(); // Free resources
     } else {
-        // welp
+        Serial.println("Error: WiFi not connected.");
     }
 };
