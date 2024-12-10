@@ -21,6 +21,7 @@ void Log::begin(const char* wifiSSID, const char* wifiPassword, String url) {
     if (WiFi.status() == WL_CONNECTED) {
         ENABLE_LOGGING = true;
         stateData["ip"] = WiFi.localIP().toString();
+        stateData["event"] = "stateUpdated";
         Serial.println("Connected to WiFi for logging!");
         httpClient.begin(_url);
     } else {

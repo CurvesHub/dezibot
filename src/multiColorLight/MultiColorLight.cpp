@@ -1,6 +1,5 @@
 #include "MultiColorLight.h"
-
-// TODO: Add logging
+#include "../log/Log.h"
 
 MultiColorLight::MultiColorLight():rgbLeds(ledAmount,ledPin){
 
@@ -9,12 +8,14 @@ MultiColorLight::MultiColorLight():rgbLeds(ledAmount,ledPin){
 void MultiColorLight::begin(void){
     rgbLeds.begin();
     this->turnOffLed();
+    Log::d(RGB_LIGHT_COMP, "begin multi color light");
 };
 
 void MultiColorLight::setLed(uint8_t index , uint32_t color){
     if (index > ledAmount-1){
         //TODO: logging
     }
+    Log::propertyChanged(RGB_LIGHT_COMP, "led" + String(index), String(color));
     rgbLeds.setPixelColor(index, normalizeColor(color));
     rgbLeds.show();
 };
@@ -40,7 +41,7 @@ void MultiColorLight::setLed(leds leds, uint32_t color){
             //TODO logging
             break;
     }
-
+    Log::propertyChanged(RGB_LIGHT_COMP, "led" + String(leds), String(color));
 };
 
 void MultiColorLight::setLed(leds leds, uint8_t red, uint8_t green, uint8_t blue){
@@ -57,6 +58,7 @@ void MultiColorLight::setTopLeds(uint8_t red, uint8_t green, uint8_t blue){
 }; 
 
 void MultiColorLight::blink(uint16_t amount,uint32_t color, leds leds, uint32_t interval){
+    Log::d(RGB_LIGHT_COMP, String(leds) + " blinking " + String(amount) + " times with interval " + String(interval) + " ticks", String(color));
     for(uint16_t index = 0; index < amount;index++){
         MultiColorLight::setLed(leds, color);
         vTaskDelay(interval);

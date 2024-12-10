@@ -1,6 +1,6 @@
 #include  "ColorDetection.h"
+#include "../log/Log.h"
 
-// TODO: Add logging
 
 void ColorDetection::beginAutoMode(void) {
     const VEML_CONFIG DEFAULT_CONFIG = VEML_CONFIG {
@@ -8,6 +8,7 @@ void ColorDetection::beginAutoMode(void) {
         .enabled = true,
         .exposureTime = MS320 };
     ColorDetection::configure(DEFAULT_CONFIG);
+    Log::d(COLOR_DETECT_COMP, "configured color detection auto mode");
 };
 
 void ColorDetection::configure(VEML_CONFIG config) {
@@ -40,24 +41,33 @@ void ColorDetection::configure(VEML_CONFIG config) {
     configuration += config.enabled ? VEML6040_SD_ENABLE : VEML6040_SD_DISABLE;
     
     rgbwSensor.setConfiguration(configuration);
+    Log::propertyChanged(COLOR_DETECT_COMP, "exposureTime", String(config.exposureTime));
+    Log::propertyChanged(COLOR_DETECT_COMP, "enabled", String(config.enabled));
+    Log::propertyChanged(COLOR_DETECT_COMP, "mode", String(config.mode));
+    Log::d(COLOR_DETECT_COMP, "rgb sensor configured", String(configuration));
 };
 
 uint16_t ColorDetection::getColorValue(color color){
+    uint16_t result;
     switch(color) {
         case VEML_RED:
-            return rgbwSensor.getRed();
+            result = rgbwSensor.getRed();
         case VEML_GREEN:
-            return rgbwSensor.getGreen();
+            result = rgbwSensor.getGreen();
         case VEML_BLUE: 
-            return rgbwSensor.getBlue();
+            result = rgbwSensor.getBlue();
         case VEML_WHITE:
-            return rgbwSensor.getWhite();
+            result = rgbwSensor.getWhite();
         default:
             Serial.println("Color is not supported by the sensor");
             return 0;
-    } 
+    }
+    Log::propertyChanged(COLOR_DETECT_COMP, "colorType" + String(color), String(result));
+    return result;
 };
 
 float ColorDetection::getAmbientLight() {
-    return rgbwSensor.getAmbientLight();
+    float result = rgbwSensor.getAmbientLight();
+    Log::propertyChanged(COLOR_DETECT_COMP, "ambientLight", String(result));
+    return result;
 };

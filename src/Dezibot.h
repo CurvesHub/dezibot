@@ -19,6 +19,7 @@
 #include "infraredLight/InfraredLight.h"
 #include "communication/Communication.h"
 #include "display/Display.h"
+#include "log/Log.h"
 
 
 class Dezibot {

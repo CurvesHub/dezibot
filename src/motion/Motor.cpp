@@ -1,4 +1,5 @@
 #include "Motion.h"
+#include "../log/Log.h"
 
 Motor::Motor(uint8_t pin, ledc_timer_t timer, ledc_channel_t channel){
     this->pin = pin;
@@ -20,10 +21,11 @@ void Motor::begin(void){
     };
     ledc_channel_config(&channelConfig);
     Serial.println("Motor begin done");
+    Log::d(MOTOR_COMP, "motor begin done", String(this->pin) + ":" + String(this->channel));
+    Log::propertyChanged(MOTOR_COMP, "duty", String(this->duty));
 };
 
 void Motor::setSpeed(uint16_t duty){
-    
     int difference = duty-this->getSpeed();
     if (difference > 0){
         for(int i = 0;i<difference;i+=difference/20){
@@ -40,7 +42,7 @@ void Motor::setSpeed(uint16_t duty){
             delayMicroseconds(5);
         }
     }
-
+    Log::propertyChanged(MOTOR_COMP, "duty", String(this->duty));
 };
 
 uint16_t Motor::getSpeed(void){
