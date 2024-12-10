@@ -64,7 +64,7 @@ void Log::sendToServer(String jsonData) {
     if (WiFi.status() == WL_CONNECTED) {
         httpClient.addHeader("Content-Type", "application/json");
 
-        int responseCode = httpClient.POST(jsonData);
+        int responseCode = httpClient.PUT(jsonData);
 
         if (responseCode != 204) {
             Serial.printf("Received status code: %d\nResponse body:", responseCode);

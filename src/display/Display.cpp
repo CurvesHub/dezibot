@@ -32,7 +32,7 @@ void Display::begin(void){
     sendDisplayCMD(0x14);
     sendDisplayCMD(activateDisplay);
     this->clear();
-    // TODO: Log all inital property values to fill the state json?
+    Log::d(DISPLAY_COMP, "display configured");
     return;
 };
 
@@ -65,6 +65,7 @@ void Display::clear(void){
     this -> currLine = 0;
     Log::propertyChanged(DISPLAY_COMP, "charsOnCurrLine", String(this->charsOnCurrLine));
     Log::propertyChanged(DISPLAY_COMP, "currLine", String(this->currLine));
+    Log::propertyChanged(DISPLAY_COMP, "lastPrinted", "");
     return;
 };
 

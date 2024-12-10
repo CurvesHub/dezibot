@@ -105,7 +105,7 @@ uint16_t LightDetection::readIRPT(photoTransistors sensor){
         break;
     }
     //digitalWrite(IR_PT_ENABLE,LOW);
-    Log::propertyChanged(LIGHT_DETECT_COMP, "readIRPT" + String(sensor), String(result));
+    Log::propertyChanged(LIGHT_DETECT_COMP, "irpt" + String(sensor), String(result));
     return result;
 };
 
@@ -124,6 +124,6 @@ uint16_t LightDetection::readDLPT(photoTransistors sensor){
         break;
     }
     digitalWrite(DL_PT_ENABLE,LOW);
-    Log::propertyChanged(LIGHT_DETECT_COMP, "readDLPT" + String(sensor), String(result));
+    Log::propertyChanged(LIGHT_DETECT_COMP, "dlpt" + String(sensor), String(result));
     return result;
 };
