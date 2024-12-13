@@ -11,6 +11,7 @@
 #include "Display.h"
 #include "CharTable.h"
 #include "Wire.h"
+#include "../log/Log.h"
 
 
 void Display::begin(void){
@@ -31,6 +32,7 @@ void Display::begin(void){
     sendDisplayCMD(0x14);
     sendDisplayCMD(activateDisplay);
     this->clear();
+    Log::d(DISPLAY_COMP, "display configured");
     return;
 };
 
@@ -39,6 +41,7 @@ void Display::sendDisplayCMD(uint8_t cmd){
     Wire.write(cmd_byte);
     Wire.write(cmd);
     Wire.endTransmission();
+    //Log::propertyChanged(DISPLAY_COMP, "lastCommand", String(cmd)); // TODO: Reenbale log or remove it if to verbose
 };
 
 void Display::clear(void){
@@ -60,6 +63,9 @@ void Display::clear(void){
     }
     this -> charsOnCurrLine = 0;
     this -> currLine = 0;
+    Log::propertyChanged(DISPLAY_COMP, "charsOnCurrLine", String(this->charsOnCurrLine));
+    Log::propertyChanged(DISPLAY_COMP, "currLine", String(this->currLine));
+    Log::propertyChanged(DISPLAY_COMP, "lastPrinted", "");
     return;
 };
 
@@ -74,9 +80,12 @@ void Display::updateLine(uint charAmount)
     {
         this->charsOnCurrLine = charAmount+this->charsOnCurrLine;
     }
+    Log::propertyChanged(DISPLAY_COMP, "currLine", String(this->currLine));
+    Log::propertyChanged(DISPLAY_COMP, "charsOnCurrLine", String(this->charsOnCurrLine));
 };
 
 void Display::print(char *value){
+    Log::propertyChanged(DISPLAY_COMP, "lastPrinted", String(value));
     char *nextchar;
 	/* write data to the buffer */
     while(value && *value != '\0') //check if pointer is still valid and string is not terminated 
@@ -163,6 +172,7 @@ void Display::flipOrientation(void){
         sendDisplayCMD(setSegmentReMap);
     }
     this->orientationFlipped = !this->orientationFlipped;
+    Log::propertyChanged(DISPLAY_COMP, "orientationFlipped", String(this->orientationFlipped));
 };
 
 void Display::invertColor(void){
@@ -172,4 +182,5 @@ void Display::invertColor(void){
         sendDisplayCMD(setInverseMode);
     }
     this->colorInverted = !this->colorInverted;
+    Log::propertyChanged(DISPLAY_COMP, "colorInverted", String(this->colorInverted));
 };

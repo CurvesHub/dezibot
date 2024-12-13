@@ -1,4 +1,5 @@
 #include "Communication.h"
+#include "../log/Log.h"
 
 Scheduler userScheduler; // to control your personal task
 painlessMesh mesh;
@@ -11,6 +12,7 @@ void Communication::sendMessage(String msg)
 {
     String data = String(groupNumber) + "#" + msg;
     mesh.sendBroadcast(data);
+    Log::d(COMMUNICATION_COMP, "sent message", msg);
 }
 
 // Needed for painless library
@@ -23,7 +25,7 @@ void Communication::receivedCallback(uint32_t from, String &msg)
         String restOfMsg = msg.substring(separatorIndex + 1);
 
         Serial.printf("startHere: Received from %u groupNumber=%u msg=%s\n", from, num, restOfMsg.c_str());
-
+        Log::d(COMMUNICATION_COMP, "received callback", groupNumberStr + ": " + restOfMsg);
         if (groupNumber != num) return;
 
         // Execute user-defined callback if it is set
@@ -58,6 +60,7 @@ void vTaskUpdate(void *pvParameters)
 
 void Communication::setGroupNumber(uint32_t number) {
     groupNumber = number;
+    Log::propertyChanged(COMMUNICATION_COMP, "groupNumber", String(number));
 }
 
 // Method to set the user-defined callback function
@@ -78,7 +81,7 @@ void Communication::begin(void)
     mesh.onNewConnection(&newConnectionCallback);
     mesh.onChangedConnections(&changedConnectionCallback);
     mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);
-
+    Log::d(COMMUNICATION_COMP, "mesh initialized");
     static uint8_t ucParameterToPass;
     TaskHandle_t xHandle = NULL;
 

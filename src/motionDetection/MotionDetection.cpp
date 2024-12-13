@@ -1,5 +1,6 @@
 #include "MotionDetection.h"
 #include <math.h>
+#include "../log/Log.h"
 
 MotionDetection::MotionDetection(){
     handler = new SPIClass(FSPI);
@@ -21,6 +22,7 @@ void MotionDetection::begin(void){
     this->writeRegister(0x23,0x37);
     //Enable Gyro and Acceldata in FIFO
     this->initFIFO();
+    Log::d(MOTION_DETECT_COMP, "begin motion detection");
 };
 void MotionDetection::end(void){
     this->writeRegister(PWR_MGMT0,0x00);
@@ -30,6 +32,7 @@ IMUResult MotionDetection::getAcceleration(){
     result.x = readRegister(ACCEL_DATA_X_HIGH)<<8 | readRegister(ACCEL_DATA_X_LOW);
     result.y = readRegister(ACCEL_DATA_Y_HIGH)<<8 | readRegister(ACCEL_DATA_Y_LOW);
     result.z = readRegister(ACCEL_DATA_Z_HIGH)<<8 | readRegister(ACCEL_DATA_Z_LOW);
+    Log::propertyChanged(MOTION_DETECT_COMP, "acceleration", "x:" + String(result.x) + ",y:" + String(result.y) + ",z:" + String(result.z));
     return result;
 };
 IMUResult MotionDetection::getRotation(){
@@ -40,6 +43,7 @@ IMUResult MotionDetection::getRotation(){
     result.y |= readRegister(GYRO_DATA_Y_LOW);
     result.z = readRegister(GYRO_DATA_Z_HIGH)<<8;
     result.z |= readRegister(GYRO_DATA_Z_LOW);
+    Log::propertyChanged(MOTION_DETECT_COMP, "rotation", "x:" + String(result.x) + ",y:" + String(result.y) + ",z:" + String(result.z));
     return result;
 };
 float MotionDetection::getTemperature(){
@@ -67,6 +71,9 @@ bool MotionDetection::isShaken(uint32_t threshold ,uint8_t axis){
                 count++;
         }
         delayMicroseconds(15);
+    }
+    if (count > 6) {
+        Log::d(MOTION_DETECT_COMP, "bot was shook");
     }
     return (count > 6);
 };
@@ -113,8 +120,7 @@ Orientation MotionDetection::getTilt(){
         }
         //yAngle = -1*yAngle-90;
     }
-          
-
+    Log::propertyChanged(MOTION_DETECT_COMP, "rotationAngle", "x:" + String(xAngle) + ",y:" + String(yAngle));
     return Orientation{xAngle,yAngle};
 
 };
@@ -134,20 +140,25 @@ Direction MotionDetection::getTiltDirection(uint tolerance){
         if (abs(Rot.xRotation)>abs(Rot.yRotation)){
             //test if dezibot is tilted left or right
             if (Rot.xRotation > 0){
+                Log::propertyChanged(MOTION_DETECT_COMP, "tiltDirection", "right");
                 return Right;
             } else {
+                Log::propertyChanged(MOTION_DETECT_COMP, "tiltDirection", "left");
                 return Left;
             }
         } else {
             //test if robot is tilted front or back
             if (Rot.yRotation > 0){
+                Log::propertyChanged(MOTION_DETECT_COMP, "tiltDirection", "front");
                 return Front;
             } else {
+                Log::propertyChanged(MOTION_DETECT_COMP, "tiltDirection", "back");
                 return Back;
             }
         }
     } else {
         //dezibot is (with tolerance) leveled
+        Log::propertyChanged(MOTION_DETECT_COMP, "tiltDirection", "neutral");
         return Neutral;
     }
 };

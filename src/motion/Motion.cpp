@@ -10,11 +10,9 @@
  */
 
 #include "Motion.h"
-
+#include "../log/Log.h"
 
 // Initialize the movement component.
-
-
 void Motion::begin(void) {
     ledc_timer_config_t motor_timer = {
         .speed_mode       = LEDC_MODE,
@@ -84,24 +82,25 @@ void Motion::moveTask(void * args) {
 };
 
 // Move forward for a certain amount of time.
-void Motion::move(uint32_t moveForMs, uint baseValue) {    
-       if(xMoveTaskHandle){
-            vTaskDelete(xMoveTaskHandle);
-            xMoveTaskHandle = NULL;
-       }
-       if(xClockwiseTaskHandle){
+void Motion::move(uint32_t moveForMs, uint baseValue) { 
+    Log::d(MOTION_COMP, "begin moving", String(moveForMs));
+    if(xMoveTaskHandle){
+        vTaskDelete(xMoveTaskHandle);
+        xMoveTaskHandle = NULL;
+    }
+    if(xClockwiseTaskHandle){
 
-            vTaskDelete(xClockwiseTaskHandle);
-            xClockwiseTaskHandle = NULL;
-       }
-       if(xAntiClockwiseTaskHandle){
-            vTaskDelete(xAntiClockwiseTaskHandle);
-            xAntiClockwiseTaskHandle = NULL;
+        vTaskDelete(xClockwiseTaskHandle);
+        xClockwiseTaskHandle = NULL;
+    }
+    if(xAntiClockwiseTaskHandle){
+        vTaskDelete(xAntiClockwiseTaskHandle);
+        xAntiClockwiseTaskHandle = NULL;
 
-       }
-       LEFT_MOTOR_DUTY = baseValue;
-       RIGHT_MOTOR_DUTY = baseValue;
-        xTaskCreate(moveTask, "Move", 4096, (void*)moveForMs, 10, &xMoveTaskHandle);
+    }
+    LEFT_MOTOR_DUTY = baseValue;
+    RIGHT_MOTOR_DUTY = baseValue;
+    xTaskCreate(moveTask, "Move", 4096, (void*)moveForMs, 10, &xMoveTaskHandle);
         
 };
 
@@ -199,5 +198,6 @@ void Motion::stop(void){
     }
     Motion::left.setSpeed(0);
     Motion::right.setSpeed(0);
+    Log::d(MOTION_COMP, "motors stopped");
 }
  
