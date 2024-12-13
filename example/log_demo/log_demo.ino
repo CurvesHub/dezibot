@@ -8,10 +8,10 @@ const char* password = "pw"; // your wifi password
 Dezibot dezibot = Dezibot();
 
 void setup() {
-  Serial.begin(115200);
-  dezibot.begin();
-  // TODO: Figure out how to use local ip to connet or deploy the service to azure for free
-  Log::begin(ssid, password, "http://localhost:5160/api/dezibot/update");
+    Serial.begin(115200);
+    // It its importent to setup the log before the dezibot to transmit the setup logs
+    Log::begin(ssid, password, "http://localhost:5160/api/dezibot/update");
+    dezibot.begin();
 }
 
 void loop() {

@@ -21,7 +21,6 @@ void Log::begin(const char* wifiSSID, const char* wifiPassword, String url) {
     if (WiFi.status() == WL_CONNECTED) {
         ENABLE_LOGGING = true;
         stateData["ip"] = WiFi.localIP().toString();
-        stateData["event"] = "stateUpdated";
         Serial.println("Connected to WiFi for logging!");
         httpClient.begin(_url);
     } else {
@@ -40,7 +39,6 @@ void Log::d(String className, String message, String data) {
     StaticJsonDocument<200> payload;
 
     payload["ip"] = WiFi.localIP().toString();
-    //payload["timestampUtc"] = millis();
     payload["className"] = className;
     payload["message"] = message;
     payload["data"] = data;
@@ -52,9 +50,6 @@ void Log::d(String className, String message, String data) {
 
 void Log::update() {
     if (!ENABLE_LOGGING) return;
-
-    //stateData["timestampUtc"] = millis();
-
     String jsonPayload;
     serializeJson(stateData, jsonPayload);
     sendToServer(jsonPayload);
