@@ -19,6 +19,11 @@ void loop() {
     Log::update();
     delay(1000);
 
+    Log::d(DEBUG, MAIN_PROGRAM, "Debug log from main");
+    Log::d(INFO, MAIN_PROGRAM, "Info log from main");
+    Log::d(WARN, MAIN_PROGRAM, "Warnings log from main");
+    Log::d(ERROR, MAIN_PROGRAM, "Error log from main");
+
     dezibot.display.print("Hello from\nDezibot");
     Log::update();
     delay(1000);

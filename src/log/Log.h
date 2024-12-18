@@ -2,7 +2,7 @@
  * @file Log.h
  * @author Tom Sosedow, Jens Richter
  * @brief Adds the ability to log events and state changes to a web server.
- * @version 0.2
+ * @version 0.3
  * @date 2024-11-26
  * 
  * @copyright Copyright (c) 2024
@@ -17,7 +17,16 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
+/** Log level enumeration for classifying log messages. */
+enum LogLevel { 
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR
+};
+
 /** Class name constants for logging components. */
+#define MAIN_PROGRAM "MAIN"
 #define DISPLAY_COMP "DISPLAY"
 #define RGB_SENSOR_COMP "RGB_SENSOR"
 #define INFRARED_COMP "INFRARED"
@@ -40,6 +49,14 @@ class Log {
         static bool ENABLE_LOGGING;               // Flag indicating whether logging is enabled.
         static HTTPClient httpClient;             // HTTP client used for making requests.
 
+        /**
+         * @brief Converts the LogLevel enum to a string.
+         * 
+         * @param level The log level to convert.
+         * @return A string representation of the log level.
+         */
+        static String logLevelToString(LogLevel level);
+
     public:
         /**
          * @brief Initializes the logging system by connecting to WiFi and setting up the server URL.
@@ -60,13 +77,14 @@ class Log {
         static void propertyChanged(String className, String propertyName, String newValue);
 
         /**
-         * @brief Logs a debug message with an associated data payload.
+         * @brief Logs a message with a specified log level and associated data payload.
          * 
+         * @param level The log level of the message.
          * @param className The name of the class generating the message.
          * @param message A short message describing the event.
          * @param data Additional data to log (optional, defaults to an empty string).
          */
-        static void d(String className, String message, String data = "");
+        static void d(LogLevel level, String className, String message, String data = "");
 
         /**
          * @brief Sends the current state data to the server.

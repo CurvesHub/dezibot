@@ -12,7 +12,7 @@ void Communication::sendMessage(String msg)
 {
     String data = String(groupNumber) + "#" + msg;
     mesh.sendBroadcast(data);
-    Log::d(COMMUNICATION_COMP, "sent message", msg);
+    Log::d(INFO, COMMUNICATION_COMP, "sent message", msg);
 }
 
 // Needed for painless library
@@ -25,7 +25,7 @@ void Communication::receivedCallback(uint32_t from, String &msg)
         String restOfMsg = msg.substring(separatorIndex + 1);
 
         Serial.printf("startHere: Received from %u groupNumber=%u msg=%s\n", from, num, restOfMsg.c_str());
-        Log::d(COMMUNICATION_COMP, "received callback", groupNumberStr + ": " + restOfMsg);
+        Log::d(INFO, COMMUNICATION_COMP, "received callback", groupNumberStr + ": " + restOfMsg);
         if (groupNumber != num) return;
 
         // Execute user-defined callback if it is set
@@ -81,7 +81,7 @@ void Communication::begin(void)
     mesh.onNewConnection(&newConnectionCallback);
     mesh.onChangedConnections(&changedConnectionCallback);
     mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);
-    Log::d(COMMUNICATION_COMP, "mesh initialized");
+    Log::d(INFO, COMMUNICATION_COMP, "mesh initialized");
     static uint8_t ucParameterToPass;
     TaskHandle_t xHandle = NULL;
 

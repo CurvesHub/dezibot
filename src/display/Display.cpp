@@ -32,7 +32,7 @@ void Display::begin(void){
     sendDisplayCMD(0x14);
     sendDisplayCMD(activateDisplay);
     this->clear();
-    Log::d(DISPLAY_COMP, "display configured");
+    Log::d(INFO, DISPLAY_COMP, "display configured");
     return;
 };
 

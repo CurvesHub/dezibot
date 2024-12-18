@@ -8,7 +8,7 @@ MultiColorLight::MultiColorLight():rgbLeds(ledAmount,ledPin){
 void MultiColorLight::begin(void){
     rgbLeds.begin();
     this->turnOffLed();
-    Log::d(RGB_LIGHT_COMP, "begin multi color light");
+    Log::d(INFO, RGB_LIGHT_COMP, "begin multi color light");
 };
 
 void MultiColorLight::setLed(uint8_t index , uint32_t color){
@@ -58,7 +58,7 @@ void MultiColorLight::setTopLeds(uint8_t red, uint8_t green, uint8_t blue){
 }; 
 
 void MultiColorLight::blink(uint16_t amount,uint32_t color, leds leds, uint32_t interval){
-    Log::d(RGB_LIGHT_COMP, String(leds) + " blinking " + String(amount) + " times with interval " + String(interval) + " ticks", String(color));
+    Log::d(INFO, RGB_LIGHT_COMP, String(leds) + " blinking " + String(amount) + " times with interval " + String(interval) + " ticks", String(color));
     for(uint16_t index = 0; index < amount;index++){
         MultiColorLight::setLed(leds, color);
         vTaskDelay(interval);
