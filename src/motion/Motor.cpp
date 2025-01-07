@@ -21,7 +21,7 @@ void Motor::begin(void){
     };
     ledc_channel_config(&channelConfig);
     Serial.println("Motor begin done");
-    Log::d(INFO, MOTOR_COMP, "motor begin done", String(this->pin) + ":" + String(this->channel));
+    Log::d(INFOLOG, MOTOR_COMP, "motor begin done", String(this->pin) + ":" + String(this->channel));
     Log::propertyChanged(MOTOR_COMP, "duty", String(this->duty));
 };
 

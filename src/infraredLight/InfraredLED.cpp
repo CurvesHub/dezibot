@@ -22,7 +22,7 @@ void InfraredLED::begin(void){
         .clk_cfg = LEDC_AUTO_CLK
     };
     ledc_timer_config(&pwmTimer);
-    Log::d(INFO, INFRARED_COMP, "pwmTimer configured", String(this->timer));
+    Log::d(INFOLOG, INFRARED_COMP, "pwmTimer configured", String(this->timer));
 
     pwmChannel = ledc_channel_config_t{
         .gpio_num = this->ledPin,
@@ -34,7 +34,7 @@ void InfraredLED::begin(void){
         .hpoint = 0
     };
     ledc_channel_config(&pwmChannel);
-    Log::d(INFO, INFRARED_COMP, "channel configured", String(this->channel));
+    Log::d(INFOLOG, INFRARED_COMP, "channel configured", String(this->channel));
 };
 
 void InfraredLED::turnOn(void){

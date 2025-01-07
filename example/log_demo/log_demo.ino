@@ -2,8 +2,8 @@
 #include <../src/log/Log.h>
 
 
-const char* ssid = "ssid"; // your wifi name
-const char* password = "pw"; // your wifi password
+const char* ssid = "hotspot"; // your wifi name
+const char* password = "password"; // your wifi password
 
 Dezibot dezibot = Dezibot();
 
@@ -19,10 +19,10 @@ void loop() {
     Log::update();
     delay(1000);
 
-    Log::d(DEBUG, MAIN_PROGRAM, "Debug log from main");
-    Log::d(INFO, MAIN_PROGRAM, "Info log from main");
-    Log::d(WARN, MAIN_PROGRAM, "Warnings log from main");
-    Log::d(ERROR, MAIN_PROGRAM, "Error log from main");
+    Log::d(DEBUGLOG, MAIN_PROGRAM, "Debug log from main");
+    Log::d(INFOLOG, MAIN_PROGRAM, "Info log from main");
+    Log::d(WARNLOG, MAIN_PROGRAM, "Warnings log from main");
+    Log::d(ERRORLOG, MAIN_PROGRAM, "Error log from main");
 
     dezibot.display.print("Hello from\nDezibot");
     Log::update();

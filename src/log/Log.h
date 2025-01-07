@@ -17,12 +17,15 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-/** Log level enumeration for classifying log messages. */
-enum LogLevel { 
-    DEBUG,
-    INFO,
-    WARN,
-    ERROR
+/** Log level enumeration for classifying log messages.
+ * Need to be called DezibotLogLevel since reference to 'LogLevel' is ambiguous
+ * because of typedef enum painlessmesh::logger::LogLevel painlessmesh::logger::LogLevel'
+ * The ending "LOG" is also needed because of ambiguous definitions */
+enum DezibotLogLevel { 
+    DEBUGLOG,
+    INFOLOG,
+    WARNLOG,
+    ERRORLOG
 };
 
 /** Class name constants for logging components. */
@@ -55,7 +58,7 @@ class Log {
          * @param level The log level to convert.
          * @return A string representation of the log level.
          */
-        static String logLevelToString(LogLevel level);
+        static String logLevelToString(DezibotLogLevel level);
 
     public:
         /**
@@ -84,7 +87,7 @@ class Log {
          * @param message A short message describing the event.
          * @param data Additional data to log (optional, defaults to an empty string).
          */
-        static void d(LogLevel level, String className, String message, String data = "");
+        static void d(DezibotLogLevel level, String className, String message, String data = "");
 
         /**
          * @brief Sends the current state data to the server.

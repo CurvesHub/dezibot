@@ -83,7 +83,7 @@ void Motion::moveTask(void * args) {
 
 // Move forward for a certain amount of time.
 void Motion::move(uint32_t moveForMs, uint baseValue) { 
-    Log::d(INFO, MOTION_COMP, "begin moving", String(moveForMs));
+    Log::d(INFOLOG, MOTION_COMP, "begin moving", String(moveForMs));
     if(xMoveTaskHandle){
         vTaskDelete(xMoveTaskHandle);
         xMoveTaskHandle = NULL;
@@ -198,6 +198,6 @@ void Motion::stop(void){
     }
     Motion::left.setSpeed(0);
     Motion::right.setSpeed(0);
-    Log::d(INFO, MOTION_COMP, "motors stopped");
+    Log::d(INFOLOG, MOTION_COMP, "motors stopped");
 }
  

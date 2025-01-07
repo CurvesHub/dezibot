@@ -22,7 +22,7 @@ void MotionDetection::begin(void){
     this->writeRegister(0x23,0x37);
     //Enable Gyro and Acceldata in FIFO
     this->initFIFO();
-    Log::d(INFO, MOTION_DETECT_COMP, "begin motion detection");
+    Log::d(INFOLOG, MOTION_DETECT_COMP, "begin motion detection");
 };
 void MotionDetection::end(void){
     this->writeRegister(PWR_MGMT0,0x00);
@@ -73,7 +73,7 @@ bool MotionDetection::isShaken(uint32_t threshold ,uint8_t axis){
         delayMicroseconds(15);
     }
     if (count > 6) {
-        Log::d(INFO, MOTION_DETECT_COMP, "bot was shook");
+        Log::d(INFOLOG, MOTION_DETECT_COMP, "bot was shook");
     }
     return (count > 6);
 };

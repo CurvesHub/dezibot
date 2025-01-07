@@ -33,7 +33,7 @@ void Log::propertyChanged(String className, String propertyName, String newValue
     stateData["data"][className][propertyName] = newValue;
 };
 
-void Log::d(LogLevel level, String className, String message, String data) {
+void Log::d(DezibotLogLevel level, String className, String message, String data) {
     if (!ENABLE_LOGGING) return;
 
     StaticJsonDocument<200> payload;
@@ -71,12 +71,12 @@ void Log::sendToServer(String jsonData) {
     }
 };
 
-String Log::logLevelToString(LogLevel level) {
+String Log::logLevelToString(DezibotLogLevel level) {
     switch (level) {
-    case DEBUG: return "DEBUG";
-    case INFO: return "INFO";
-    case WARN: return "WARN";
-    case ERROR: return "ERROR";
+    case DEBUGLOG: return "DEBUG";
+    case INFOLOG: return "INFO";
+    case WARNLOG: return "WARN";
+    case ERRORLOG: return "ERROR";
     default: return "UNKNOWN";
     }
 };
