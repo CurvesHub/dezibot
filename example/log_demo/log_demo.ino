@@ -10,7 +10,7 @@ Dezibot dezibot = Dezibot();
 void setup() {
     Serial.begin(115200);
     // It its importent to setup the log before the dezibot to transmit the setup logs
-    Log::begin(ssid, password, "http://localhost:5160/api/dezibot/update");
+    Log::begin(ssid, password, "http://ipAdress:5160/api/dezibot/update");
     dezibot.begin();
 }
 
@@ -24,7 +24,7 @@ void loop() {
     Log::d(WARNLOG, MAIN_PROGRAM, "Warnings log from main");
     Log::d(ERRORLOG, MAIN_PROGRAM, "Error log from main");
 
-    dezibot.display.print("Hello from\nDezibot");
+    dezibot.display.print("TEST: LogLevel");
     Log::update();
     delay(1000);
 
