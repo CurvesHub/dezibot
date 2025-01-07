@@ -73,7 +73,7 @@ void LightDetection::beginInfrared(void){
     pinMode(IR_PT_LEFT_ADC, INPUT);
     pinMode(IR_PT_RIGHT_ADC, INPUT);
     pinMode(IR_PT_BACK_ADC, INPUT);
-    Log::d(LIGHT_DETECT_COMP, "begin infrared");
+    Log::d(INFOLOG, LIGHT_DETECT_COMP, "begin infrared");
 };
 
 void LightDetection::beginDaylight(void){
@@ -81,7 +81,7 @@ void LightDetection::beginDaylight(void){
     pinMode(DL_PT_ENABLE, OUTPUT);
     pinMode(DL_PT_BOTTOM_ADC, INPUT);
     pinMode(DL_PT_FRONT_ADC, INPUT );
-    Log::d(LIGHT_DETECT_COMP, "begin daylight");
+    Log::d(INFOLOG, LIGHT_DETECT_COMP, "begin daylight");
 };
 
 uint16_t LightDetection::readIRPT(photoTransistors sensor){

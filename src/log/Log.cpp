@@ -33,12 +33,13 @@ void Log::propertyChanged(String className, String propertyName, String newValue
     stateData["data"][className][propertyName] = newValue;
 };
 
-void Log::d(String className, String message, String data) {
+void Log::d(DezibotLogLevel level, String className, String message, String data) {
     if (!ENABLE_LOGGING) return;
 
     StaticJsonDocument<200> payload;
 
     payload["ip"] = WiFi.localIP().toString();
+    payload["logLevel"] = logLevelToString(level);
     payload["className"] = className;
     payload["message"] = message;
     payload["data"] = data;
@@ -67,5 +68,15 @@ void Log::sendToServer(String jsonData) {
         }
     } else {
         Serial.println("Error: WiFi not connected.");
+    }
+};
+
+String Log::logLevelToString(DezibotLogLevel level) {
+    switch (level) {
+    case DEBUGLOG: return "DEBUG";
+    case INFOLOG: return "INFO";
+    case WARNLOG: return "WARN";
+    case ERRORLOG: return "ERROR";
+    default: return "UNKNOWN";
     }
 };

@@ -8,7 +8,7 @@ void ColorDetection::beginAutoMode(void) {
         .enabled = true,
         .exposureTime = MS320 };
     ColorDetection::configure(DEFAULT_CONFIG);
-    Log::d(COLOR_DETECT_COMP, "configured color detection auto mode");
+    Log::d(INFOLOG, COLOR_DETECT_COMP, "configured color detection auto mode");
 };
 
 void ColorDetection::configure(VEML_CONFIG config) {
@@ -44,7 +44,7 @@ void ColorDetection::configure(VEML_CONFIG config) {
     Log::propertyChanged(COLOR_DETECT_COMP, "exposureTime", String(config.exposureTime));
     Log::propertyChanged(COLOR_DETECT_COMP, "enabled", String(config.enabled));
     Log::propertyChanged(COLOR_DETECT_COMP, "mode", String(config.mode));
-    Log::d(COLOR_DETECT_COMP, "rgb sensor configured", String(configuration));
+    Log::d(INFOLOG, COLOR_DETECT_COMP, "rgb sensor configured", String(configuration));
 };
 
 uint16_t ColorDetection::getColorValue(color color){
