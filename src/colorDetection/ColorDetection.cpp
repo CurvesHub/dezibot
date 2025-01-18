@@ -60,6 +60,7 @@ uint16_t ColorDetection::getColorValue(color color){
             result = rgbwSensor.getWhite();
         default:
             Serial.println("Color is not supported by the sensor");
+            Log::d(INFOLOG, COLOR_DETECT_COMP, "Color is not supported by the sensor", String(color));
             return 0;
     }
     Log::propertyChanged(COLOR_DETECT_COMP, "colorType" + String(color), String(result));

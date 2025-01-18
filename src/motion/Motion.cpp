@@ -146,7 +146,7 @@ void Motion::rotateClockwise(uint32_t rotateForMs,uint baseValue) {
 
 void Motion::rightMotorTask(void * args) {
     uint32_t runtime = (uint32_t)args;
-     if(xMoveTaskHandle){
+    if(xMoveTaskHandle){
         vTaskDelete(xMoveTaskHandle);
         xMoveTaskHandle = NULL;
     }

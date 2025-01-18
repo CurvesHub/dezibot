@@ -120,9 +120,9 @@ Orientation MotionDetection::getTilt(){
         }
         //yAngle = -1*yAngle-90;
     }
+    
     Log::propertyChanged(MOTION_DETECT_COMP, "rotationAngle", "x:" + String(xAngle) + ",y:" + String(yAngle));
     return Orientation{xAngle,yAngle};
-
 };
 
 Direction MotionDetection::getTiltDirection(uint tolerance){

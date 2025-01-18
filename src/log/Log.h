@@ -2,8 +2,8 @@
  * @file Log.h
  * @author Tom Sosedow, Jens Richter
  * @brief Adds the ability to log events and state changes to a web server.
- * @version 0.3
- * @date 2024-11-26
+ * @version 0.1
+ * @date 2025-01-18
  * 
  * @copyright Copyright (c) 2024
  * 

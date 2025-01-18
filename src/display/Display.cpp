@@ -41,7 +41,8 @@ void Display::sendDisplayCMD(uint8_t cmd){
     Wire.write(cmd_byte);
     Wire.write(cmd);
     Wire.endTransmission();
-    //Log::propertyChanged(DISPLAY_COMP, "lastCommand", String(cmd)); // TODO: Reenbale log or remove it if to verbose
+    // TODO: Reenbale remove it if to verbose
+    Log::propertyChanged(DISPLAY_COMP, "lastCommand", String(cmd));
 };
 
 void Display::clear(void){
@@ -65,7 +66,7 @@ void Display::clear(void){
     this -> currLine = 0;
     Log::propertyChanged(DISPLAY_COMP, "charsOnCurrLine", String(this->charsOnCurrLine));
     Log::propertyChanged(DISPLAY_COMP, "currLine", String(this->currLine));
-    Log::propertyChanged(DISPLAY_COMP, "lastPrinted", "");
+    Log::d(INFOLOG, DISPLAY_COMP, "display cleared");
     return;
 };
 

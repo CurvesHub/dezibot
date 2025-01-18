@@ -1,40 +1,56 @@
 #include <Dezibot.h>
 #include <../src/log/Log.h>
 
-
 const char* ssid = "hotspot"; // your wifi name
 const char* password = "password"; // your wifi password
+const char* ipAdress = ""; // the ip adress of the backend server
 
 Dezibot dezibot = Dezibot();
 
 void setup() {
     Serial.begin(115200);
-    // It its importent to setup the log before the dezibot to transmit the setup logs
-    Log::begin(ssid, password, "http://ipAdress:5160/api/dezibot/update");
+    // You need to configure the Log first, to transmit the setup logs/data of dezibot components
+    Log::begin(ssid, password, "http://" + ipAdress + ":5160/api/dezibot/update");
     dezibot.begin();
 }
 
+// This is an example of how to use the Log class
 void loop() {
-    // TODO: Add exmaples for every component
-    Log::update();
-    delay(1000);
-
+    // You can use the Log class to log data assosiated with a log level which is directly sent to the server
     Log::d(DEBUGLOG, MAIN_PROGRAM, "Debug log from main");
     Log::d(INFOLOG, MAIN_PROGRAM, "Info log from main");
     Log::d(WARNLOG, MAIN_PROGRAM, "Warnings log from main");
     Log::d(ERRORLOG, MAIN_PROGRAM, "Error log from main");
 
-    dezibot.display.print("TEST: LogLevel");
-    Log::update();
-    delay(1000);
+    // You can also log data from the components of the dezibot which are stored in the Log class
+    Log::propertyChanged(MAIN_PROGRAM, "someProperty", "someValue");
 
+    // You can call the update method to send stored components data to the server
+    Log::update();
+
+    // Calling some explample components to generate logs and state data
+    
+    // Color Detection
+    dezibot.colorDetection.getColorValue(VEML_RED);
+
+    // Display
+    dezibot.display.print("Hello World");
+    delay(1000);
     dezibot.display.clear();
-    Log::update();
+    dezibot.display.flipOrientation();
+    dezibot.display.invertColor();
+    dezibot.display.print("Flipped and Inverted");
     delay(1000);
+    dezibot.display.clear();
+    dezibot.display.flipOrientation();
+    dezibot.display.invertColor();
 
+    // Light Detection
     dezibot.lightDetection.getValue(DL_FRONT);
-    dezibot.lightDetection.getAverageValue(IR_FRONT,20,1);
     dezibot.lightDetection.getBrightest(IR);
+    dezibot.lightDetection.getAverageValue(IR_FRONT,20,1);
+
+    // Sent data to server and use a deplay to reduce verbosity
     Log::update();
-    delay(1000);
+    delay(3000);
 }
