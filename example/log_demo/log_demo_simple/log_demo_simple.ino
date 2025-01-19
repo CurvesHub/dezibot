@@ -3,7 +3,7 @@
 
 const char* ssid = "hotspot"; // your wifi name
 const char* password = "password"; // your wifi password
-const char* ipAdress = ""; // the ip adress of the backend server
+String ipAdress = ""; // the ip adress of the backend server
 
 Dezibot dezibot = Dezibot();
 

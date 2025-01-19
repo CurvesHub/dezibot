@@ -3,7 +3,7 @@
 
 const char* ssid = "hotspot"; // your wifi name
 const char* password = "password"; // your wifi password
-const char* ipAdress = ""; // the ip adress of the backend server
+String ipAdress = ""; // the ip adress of the backend server
 
 Dezibot dezibot = Dezibot();
 
@@ -29,9 +29,6 @@ void loop() {
     Log::update();
 
     // Calling some explample components to generate logs and state data
-    
-    // Color Detection
-    dezibot.colorDetection.getColorValue(VEML_RED);
 
     // Display
     dezibot.display.print("Hello World");
